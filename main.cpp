@@ -1,5 +1,6 @@
 #include "common.h"
 #include "test_image.h"
+#include "segmentation.h"
 
 int main(int argc, const char ** argv) {
 
@@ -11,6 +12,8 @@ int main(int argc, const char ** argv) {
     TestImage test_obj(argv);
     test_obj.getExt();
     test_obj.drawTestImage(300, 400);
+
+    Segmentation test_seg(argv);
 
     return 0;
 }

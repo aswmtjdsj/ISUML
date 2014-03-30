@@ -29,6 +29,14 @@ ImageBase::ImageBase(const char ** argv) {
     printf("Output sub-directory %s created!\n", output_dir);
 }
 
+int ImageBase::width() const {
+    return input_image.cols;
+}
+
+int ImageBase::height() const {
+    return input_image.rows;
+}
+
 void ImageBase::setExt(const char * ext) {
     sprintf(file_ext, "%s", ext);
 }
@@ -40,14 +48,22 @@ char * ImageBase::getExt() {
     return ext;
 }
 
-void ImageBase::loadInput(const char * file_name) {
+bool ImageBase::loadInput(const char *dir, const char * file, const char * ext) {
+    char * file_name = new char[MAX_FILE_NAME];
+    sprintf(file_name, "%s/%s.%s", dir, file, ext);
     input_image = imread(file_name);
+
+    delete [] file_name;
+    return input_image.data != NULL;
 }
 
-bool ImageBase::saveImage(const cv::Mat &img, const char *dir, const char * file) {
+bool ImageBase::saveImage(const cv::Mat &img, const char *dir, const char * file, const char * ext) {
     char * file_name = new char[MAX_FILE_NAME];
-    sprintf(file_name, "%s/%s.%s", dir, file, file_ext);
-    return imwrite(file_name, img);
+    sprintf(file_name, "%s/%s.%s", dir, file, ext);
+    bool result = imwrite(file_name, img);
+
+    delete [] file_name;
+    return result;
 }
 
 ImageBase::~ImageBase() {

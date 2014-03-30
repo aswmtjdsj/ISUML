@@ -1,14 +1,15 @@
 CC=g++
 CFLAGS=-g -Wall -std=c++0x
+OPT=-O2
 LIB=-lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_nonfree -lopencv_legacy
 SRC=main.cpp
 OBJ=image_base.o test_image.o segmentation.o
 
-release: $(OBJ) $(SRC)
-	$(CC) $(CFLAGS) $^ -o $@ $(LIB) 
-
 debug: $(OBJ) $(SRC)
 	$(CC) $(CFLAGS) $^ -o $@ $(LIB) 
+
+release: $(OBJ) $(SRC)
+	$(CC) $(CFLAGS) $(OPT) $^ -o $@ $(LIB) 
 
 image_base.o: image_base.cpp
 	$(CC) $(CFLAGS) -c $^

@@ -14,8 +14,11 @@ class ImageBase {
         void setExt(const char *);
         char * getExt();
 
-        void loadInput(const char *);
-        bool saveImage(const cv::Mat &, const char *, const char *);
+        bool loadInput(const char *, const char *, const char *);
+        bool saveImage(const cv::Mat &, const char *, const char *, const char *);
+
+        int width() const;
+        int height() const;
 
     protected:
 

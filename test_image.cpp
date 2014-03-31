@@ -1,6 +1,7 @@
 #include "test_image.h"
 
 using namespace cv;
+using namespace std;
 
 TestImage::TestImage(): ImageBase() {
 }
@@ -43,6 +44,7 @@ void TestImage::drawTestImage(const int &h, const int &w) {
             }
         }
     }
+    cout << "Creating Test Image..." << endl;
 
     saveImage(input_image, input_dir, input_file, file_ext);
 }

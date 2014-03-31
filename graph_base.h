@@ -3,9 +3,21 @@
 
 #include "common.h"
 
-typedef std::pair<int, int> node;
+#define square(x) ((x) * (x))
 
-typedef std::pair<node, int> edge;
+typedef std::pair<int, int> Node;
+
+class Edge {
+    public:
+        Edge();
+        Edge(const Node &, const Node &, const int &);
+
+        friend bool operator <(const Edge, const Edge);
+        void print() const;
+
+        Node from, to;
+        int weight;
+};
 
 // left, left-top, top, right-top
 // right, right-bottom, bottom, left-bottom
@@ -20,6 +32,12 @@ const int dw[] = {
     1, 1, 0, -1
 };
 
-inline cv::Vec3b operator -(const cv::Vec3b &, const cv::Vec3b &);
+cv::Vec3b operator -(const cv::Vec3b &, const cv::Vec3b &);
+
+int norm2(const cv::Vec3b &);
+
+
+std::string nodeToStr(const Node &);
+
 
 #endif

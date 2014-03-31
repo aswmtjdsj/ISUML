@@ -14,6 +14,7 @@ int main(int argc, const char ** argv) {
     test_obj.drawTestImage(300, 400);
 
     Segmentation test_seg(argv);
+    test_seg.buildGraph();
 
     return 0;
 }

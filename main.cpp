@@ -15,6 +15,8 @@ int main(int argc, const char ** argv) {
 
     Segmentation test_seg(argv);
     test_seg.buildGraph();
+    test_seg.generalSegmentation();
+    test_seg.drawSegmentation();
 
     return 0;
 }

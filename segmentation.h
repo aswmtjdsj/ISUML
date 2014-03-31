@@ -4,15 +4,19 @@
 #include "image_base.h"
 #include "graph_base.h"
 
+#ifndef BASE_THRESHOLD
+#define BASE_THRESHOLD 5
+#endif
+
 class SuperPixel {
     public:
     SuperPixel();
-    SuperPixel(const cv::Vec3b &, const int &);
+    SuperPixel(const cv::Vec3b &, const Node &);
 
     std::string info() const;
 
     cv::Vec3b color;
-    int classifier_id;
+    Node classifier_pixel;
 };
 
 class Segmentation: public ImageBase {
@@ -28,6 +32,10 @@ class Segmentation: public ImageBase {
         void printGraph(const int &) const;
         void printNode(const int &, const int &) const;
         bool inImage(const int &, const int &) const;
+
+        void generalSegmentation();
+        void drawSegmentation();
+        SuperPixel getRegion(const Node &);
 };
 
 #endif

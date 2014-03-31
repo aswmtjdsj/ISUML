@@ -6,11 +6,11 @@ using namespace std;
 SuperPixel::SuperPixel() {
 }
 
-SuperPixel::SuperPixel(const cv::Vec3b &pixel_color, const int &id):color(pixel_color), classifier_id(id) {
+SuperPixel::SuperPixel(const cv::Vec3b &pixel_color, const Node &pixel):color(pixel_color), classifier_pixel(pixel) {
 }
 
 string SuperPixel::info() const {
-    string information = "SuperPixel #" + to_string(classifier_id) + ": (" + to_string(color.val[0]) + ", " + to_string(color.val[1]) + ", " + to_string(color.val[2]) + ").";
+    string information = "SuperPixel (" + to_string(classifier_pixel.first) + ", " + to_string(classifier_pixel.second) + "): [" + to_string(color.val[0]) + ", " + to_string(color.val[1]) + ", " + to_string(color.val[2]) + "].";
     return information;
 }
 
@@ -37,7 +37,7 @@ void Segmentation::buildGraph() {
         region[i].resize(width());
         for(int j = 0; j < width(); j++) {
             Vec3b from_pixel = input_image.at<Vec3b>(j, i);
-            region[i][j] = SuperPixel(from_pixel, i * width() + j);
+            region[i][j] = SuperPixel(from_pixel, Node(i, j));
 
             for(int k = 0; k < 8; k++) {
                 int ah = i + dh[k], aw = j + dw[k];
@@ -76,11 +76,36 @@ void Segmentation::printGraph(const int &flag) const{
 }
 
 void Segmentation::printNode(const int &h, const int &w) const {
-    printf("Node (%d, %d)-> %s", h, w, region[h][w].info().c_str());
+    printf("%s", region[h][w].info().c_str());
 }
 
 bool Segmentation::inImage(const int &h, const int &w) const {
     return 0 <= h && h < height() && 0 <= w && w < width();
+}
+
+void Segmentation::generalSegmentation() {
+    for(auto ptr = graph.begin(); ptr != graph.end(); ptr++) {
+        Node a = ptr->from, b = ptr->to;
+        SuperPixel ra = getRegion(a), rb = getRegion(b);
+        if(ra.classifier_id == rb.classifier_id) {
+            continue;
+        }
+        int w = ptr->weight;
+        if(w < square(BASE_THRESHOLD)) {
+        }
+    }
+}
+
+void Segmentation::drawSegmentation() {
+
+}
+
+SuperPixel Segmentation::getRegion(const Node &node) {
+    int h = node.first, w = node.second;
+    if(region[h][w].classifier_pixel != node) {
+        region[h][w].classifier_pixel = getRegion(region[h][w].classifier_pixel).classifier_pixel;
+    }
+    return region[h][w];
 }
 
 Segmentation::~Segmentation() {

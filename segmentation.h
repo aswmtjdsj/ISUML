@@ -11,6 +11,7 @@ class Segmentation: public ImageBase {
         ~Segmentation();
 
         std::vector < std::vector<edge> > graph;
+        void buildGraph();
 };
 
 #endif

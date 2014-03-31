@@ -19,7 +19,7 @@ void TestImage::drawTestImage(const int &h, const int &w) {
         exit(1);
     }
 
-    printf("created image height: %d, width: %d\n", input_image.rows, input_image.cols);
+    printf("created image height: %d, width: %d\n", input_image.cols, input_image.rows);
     printf("created image height: %d, width: %d\n", height(), width());
     int x = w / 2, y = h / 2;
 

@@ -30,11 +30,11 @@ ImageBase::ImageBase(const char ** argv) {
 }
 
 int ImageBase::width() const {
-    return input_image.cols;
+    return input_image.rows;
 }
 
 int ImageBase::height() const {
-    return input_image.rows;
+    return input_image.cols;
 }
 
 void ImageBase::setExt(const char * ext) {

@@ -1,5 +1,8 @@
 CC=g++
-CFLAGS=-g -Wall -std=c++0x
+DEBUG_FLAGS= -DDEBUG_LEVEL=LEVEL_DEBUG
+RELEASE_FLAGS= -DDEBUG_LEVEL=LEVEL_RELEASE
+CFLAGS=-g -Wall -std=c++0x $(DEBUG_FLAGS)
+#need modifications
 OPT=-O2
 LIB=-lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_nonfree -lopencv_legacy
 SRC=main.cpp
@@ -24,4 +27,4 @@ segmentation.o: segmentation.cpp
 	$(CC) $(CFLAGS) -c $^
 
 clean:
-	-rm release debug $(OBJ)
+	-rm $(OBJ) release debug debug_info release_info

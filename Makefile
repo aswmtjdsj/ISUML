@@ -1,7 +1,7 @@
 CC=g++
 DEBUG_FLAGS= -DDEBUG_LEVEL=LEVEL_DEBUG
 RELEASE_FLAGS= -DDEBUG_LEVEL=LEVEL_RELEASE
-CFLAGS=-g -Wall -std=c++0x $(DEBUG_FLAGS) -DBASE_THRESHOLD=10
+CFLAGS=-g -Wall -std=c++0x $(RELEASE_FLAGS) -DBASE_THRESHOLD=10
 #need modifications
 OPT=-O2
 LIB=-lopencv_core -lopencv_highgui -lopencv_imgproc -lopencv_nonfree -lopencv_legacy

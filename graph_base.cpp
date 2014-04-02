@@ -4,7 +4,7 @@ using namespace cv;
 using namespace std;
 
 Vec3b operator -(const Vec3b &a, const Vec3b &b) {
-    return Vec3b(a.val[0] - b.val[0], a.val[1] - b.val[1], a.val[2] - b.val[2]) ;
+    return Vec3b(abs(a.val[0] - b.val[0]), abs(a.val[1] - b.val[1]), abs(a.val[2] - b.val[2])) ;
 }
 
 Vec3b operator +(const Vec3b &a, const Vec3b &b) {

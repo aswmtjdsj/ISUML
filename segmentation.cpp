@@ -10,7 +10,7 @@ SuperPixel::SuperPixel(const cv::Vec3b &pixel_color, const Node &pixel):color(pi
 }
 
 string SuperPixel::info() const {
-    string information = "SuperPixel (" + to_string(classifier_pixel.first) + ", " + to_string(classifier_pixel.second) + "): [" + to_string(color.val[0]) + ", " + to_string(color.val[1]) + ", " + to_string(color.val[2]) + "].";
+    string information = "SuperPixel " + nodeToStr(classifier_pixel) + ": [" + to_string(color.val[0]) + ", " + to_string(color.val[1]) + ", " + to_string(color.val[2]) + "].";
     return information;
 }
 
@@ -21,12 +21,6 @@ Segmentation::Segmentation(const char ** argv): ImageBase(argv) {
     cout << "Loading Input Image..." << endl;
     loadInput(input_dir, input_file, file_ext);
     printf("loaded image height: %d, width: %d\n", height(), width());
-    /*if(saveImage(input_image, output_dir, input_file, file_ext)) {
-      printf("image %s.%s saved in dir %s!\n", input_file, file_ext, output_dir);
-      }
-      else {
-      printf("image %s.%s save failed!\n", input_file, file_ext);
-      }*/
 }
 
 void Segmentation::buildGraph() {
@@ -49,6 +43,7 @@ void Segmentation::buildGraph() {
         }
     }
 
+    cout << "Graph size: " << graph.size() << " edges." << endl;
     cout << "Sorting graph edges..." << endl;
     sort(graph.begin(), graph.end());
     printGraph(DEBUG_LEVEL);
@@ -75,7 +70,7 @@ void Segmentation::printGraph(const int &flag) const{
 }
 
 void Segmentation::printNode(const int &h, const int &w) const {
-    printf("%s", region[h][w].info().c_str());
+    printf("%s\n", region[h][w].info().c_str());
 }
 
 bool Segmentation::inImage(const int &h, const int &w) const {
@@ -91,10 +86,25 @@ void Segmentation::generalSegmentation() {
             continue;
         }
         int w = ptr->weight;
-        if(w < square(BASE_THRESHOLD)) {
+        if(w < square(BASE_THRESHOLD)) { // need modification, updating while in process 
+
+#if DEBUG_LEVEL == LEVEL_DEBUG
+            cout << w << endl;
+            printNode(ra.classifier_pixel.first, ra.classifier_pixel.second);
+            printNode(rb.classifier_pixel.first, rb.classifier_pixel.second);
+#endif
+
             // no size info here
-            getRegion(a).color = ra.color * 0.5 + rb.color * 0.5;
+            getRegion(a).color = color_combine(ra.color, 0.5, rb.color, 0.5);
             getRegion(b) = getRegion(a);
+
+#if DEBUG_LEVEL == LEVEL_DEBUG
+            printNode(ra.classifier_pixel.first, ra.classifier_pixel.second);
+            printNode(rb.classifier_pixel.first, rb.classifier_pixel.second);
+#endif
+        }
+        else {
+            break;
         }
     }
 }

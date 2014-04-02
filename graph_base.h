@@ -34,6 +34,10 @@ const int dw[] = {
 
 cv::Vec3b operator -(const cv::Vec3b &, const cv::Vec3b &);
 
+cv::Vec3b operator +(const cv::Vec3b &, const cv::Vec3b &);
+
+cv::Vec3b operator *(const cv::Vec3b &, const double &);
+
 int norm2(const cv::Vec3b &);
 
 

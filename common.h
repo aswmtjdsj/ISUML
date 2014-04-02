@@ -23,7 +23,7 @@
 #define MAX_FILE_NAME 100
 
 #define LEVEL_RELEASE 0
-#define LEVEL_DEBUG 2
+#define LEVEL_DEBUG 3
 
 #ifndef DEBUG_LEVEL
 #define DEBUG_LEVEL LEVEL_DEBUG

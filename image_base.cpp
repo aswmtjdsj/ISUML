@@ -60,6 +60,7 @@ bool ImageBase::loadInput(const char *dir, const char * file, const char * ext) 
 bool ImageBase::saveImage(const cv::Mat &img, const char *dir, const char * file, const char * ext) {
     char * file_name = new char[MAX_FILE_NAME];
     sprintf(file_name, "%s/%s.%s", dir, file, ext);
+    printf("Saving image %s...", file_name);
     bool result = imwrite(file_name, img);
 
     delete [] file_name;

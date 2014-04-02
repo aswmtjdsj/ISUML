@@ -58,11 +58,10 @@ void Segmentation::printGraph(const int &flag) const{
     if(flag > 0) {
         cout << "Printing graph..." << endl;
         if((flag & 1) == 1) {
+            cout << "Printing nodes..." << endl;
             for(int i = 0; i < height(); i++) {
                 for(int j = 0; j < width(); j++) {
-                    cout << "Printing nodes..." << endl;
                     printNode(i, j);
-
                 }
             }
         }
@@ -84,26 +83,43 @@ bool Segmentation::inImage(const int &h, const int &w) const {
 }
 
 void Segmentation::generalSegmentation() {
+    cout << "Segmenting..." << endl;
     for(auto ptr = graph.begin(); ptr != graph.end(); ptr++) {
         Node a = ptr->from, b = ptr->to;
         SuperPixel ra = getRegion(a), rb = getRegion(b);
-        if(ra.classifier_id == rb.classifier_id) {
+        if(ra.classifier_pixel == rb.classifier_pixel) {
             continue;
         }
         int w = ptr->weight;
         if(w < square(BASE_THRESHOLD)) {
+            // no size info here
+            getRegion(a).color = ra.color * 0.5 + rb.color * 0.5;
+            getRegion(b) = getRegion(a);
         }
     }
 }
 
 void Segmentation::drawSegmentation() {
-
+    Mat segmented_image = Mat(width(), height(), CV_8UC3);
+    for(int i = 0; i < height(); i++) {
+        for(int j = 0; j < width(); j++) {
+            segmented_image.at<Vec3b>(j, i) = region[i][j].color;
+        }
+    }
+    char * segmented_file = new char[100];
+    sprintf(segmented_file, "%s_segmented", input_file);
+    if(saveImage(segmented_image, output_dir, segmented_file, file_ext)) {
+        cout << "Segmented image saved!" << endl;
+    }
+    else {
+        cout << "Segmented image saving failed!" << endl;
+    }
 }
 
-SuperPixel Segmentation::getRegion(const Node &node) {
+SuperPixel & Segmentation::getRegion(const Node &node) {
     int h = node.first, w = node.second;
     if(region[h][w].classifier_pixel != node) {
-        region[h][w].classifier_pixel = getRegion(region[h][w].classifier_pixel).classifier_pixel;
+        region[h][w] = getRegion(region[h][w].classifier_pixel);
     }
     return region[h][w];
 }

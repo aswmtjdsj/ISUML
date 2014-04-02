@@ -35,7 +35,7 @@ class Segmentation: public ImageBase {
 
         void generalSegmentation();
         void drawSegmentation();
-        SuperPixel getRegion(const Node &);
+        SuperPixel & getRegion(const Node &); // make the super pixel available for modification
 };
 
 #endif

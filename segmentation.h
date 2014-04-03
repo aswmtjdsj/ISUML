@@ -11,12 +11,13 @@
 class SuperPixel {
     public:
     SuperPixel();
-    SuperPixel(const cv::Vec3b &, const Node &);
+    SuperPixel(const cv::Vec3b &, const Node &, const int _size = 1);
 
     std::string info() const;
 
     cv::Vec3b color;
     Node classifier_pixel;
+    int size;
 };
 
 class Segmentation: public ImageBase {

@@ -6,7 +6,7 @@ using namespace std;
 SuperPixel::SuperPixel() {
 }
 
-SuperPixel::SuperPixel(const cv::Vec3b &pixel_color, const Node &pixel):color(pixel_color), classifier_pixel(pixel) {
+SuperPixel::SuperPixel(const cv::Vec3b &pixel_color, const Node &pixel, const int _size):color(pixel_color), classifier_pixel(pixel), size(_size) {
 }
 
 string SuperPixel::info() const {
@@ -19,7 +19,10 @@ Segmentation::Segmentation(): ImageBase() {
 
 Segmentation::Segmentation(const char ** argv): ImageBase(argv) {
     cout << "Loading Input Image..." << endl;
-    loadInput(input_dir, input_file, file_ext);
+    if(!loadInput(input_dir, input_file, file_ext)) {
+        cout << "Load Input Image Failed!" << endl;
+        exit(1);
+    }
     printf("loaded image height: %d, width: %d\n", height(), width());
 }
 
@@ -94,9 +97,20 @@ void Segmentation::generalSegmentation() {
             printNode(rb.classifier_pixel.first, rb.classifier_pixel.second);
 #endif
 
-            // no size info here
-            getRegion(a).color = color_combine(ra.color, 0.5, rb.color, 0.5);
-            getRegion(b) = getRegion(a);
+            if(ra.size > rb.size) {
+                double wa = ra.size, wb = rb.size;
+                getRegion(a).color = color_combine(ra.color, 0.5, rb.color, 0.5);
+                // getRegion(a).color = color_combine(ra.color, wa / (wa + wb), rb.color, wb / (wa + wb));
+                getRegion(a).size += getRegion(b).size;
+                getRegion(b) = getRegion(a);
+            }
+            else {
+                double wa = ra.size, wb = rb.size;
+                getRegion(b).color = color_combine(ra.color, 0.5, rb.color, 0.5);
+                // getRegion(b).color = color_combine(rb.color, wa / (wa + wb), rb.color, wb / (wa + wb));
+                getRegion(b).size += getRegion(a).size;
+                getRegion(a) = getRegion(b);
+            }
 
 #if DEBUG_LEVEL == LEVEL_DEBUG
             printNode(ra.classifier_pixel.first, ra.classifier_pixel.second);

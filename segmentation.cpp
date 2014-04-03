@@ -140,6 +140,36 @@ void Segmentation::drawSegmentation() {
     }
 }
 
+void Segmentation::drawSuperPixel() {
+    map <Node, Vec3f> super_set;
+    srand(clock());
+    for(int i = 0; i < height(); i++) {
+        for(int j = 0; j < width(); j++) {
+            if(super_set.find(getRegion(region[i][j].classifier_pixel).classifier_pixel) == super_set.end()) {
+                Vec3f _color;
+                for(int k = 0; k < 3; k++) {
+                    _color.val[k] = rand() % 256;
+                }
+                super_set[getRegion(region[i][j].classifier_pixel).classifier_pixel] = _color;
+            }
+        }
+    }
+    Mat super_image = Mat(width(), height(), CV_8UC3);
+    for(int i = 0; i < height(); i++) {
+        for(int j = 0; j < width(); j++) {
+            super_image.at<Vec3b>(j, i) = super_set[getRegion(region[i][j].classifier_pixel).classifier_pixel];
+        }
+    }
+    char * super_file = new char[100];
+    sprintf(super_file, "%s_super_pixels", input_file);
+    if(saveImage(super_image, output_dir, super_file, file_ext)) {
+        cout << "Super Pixel image saved!" << endl;
+    }
+    else {
+        cout << "Super Pixel image saving failed!" << endl;
+    }
+}
+
 SuperPixel & Segmentation::getRegion(const Node &node) {
     int h = node.first, w = node.second;
     if(region[h][w].classifier_pixel != node) {

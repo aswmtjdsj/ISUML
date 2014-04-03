@@ -18,6 +18,7 @@ int main(int argc, const char ** argv) {
     test_seg.buildGraph();
     test_seg.generalSegmentation();
     test_seg.drawSegmentation();
+    test_seg.drawSuperPixel();
 
     return 0;
 }

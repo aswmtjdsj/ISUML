@@ -33,7 +33,9 @@ class ImageBase {
 };
 
 class SuperPixel {
+
     public:
+
         SuperPixel();
         SuperPixel(const cv::Vec3b &, const Node &);
 
@@ -44,7 +46,9 @@ class SuperPixel {
 };
 
 class Segmentation: public ImageBase {
+
     public:
+
         Segmentation();
         Segmentation(const char **);
         ~Segmentation();
@@ -63,7 +67,9 @@ class Segmentation: public ImageBase {
 };
 
 class TestImage: public ImageBase {
+
     public:
+
         TestImage();
         TestImage(const char **);
         ~TestImage();

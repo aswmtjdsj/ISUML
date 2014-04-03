@@ -3,7 +3,7 @@ ISUML
 
 This project is about Image Segmentation via Machine Learning. A course project for CSE 512.
 
-class structure:
+class structure>
 
 class ImageBase {
 
@@ -24,23 +24,23 @@ class ImageBase {
 
     protected:
 
-    char * input_dir,
-         * output_dir,
-         * input_file,
-         * file_ext;
-    
-    cv::Mat input_image;
+        char * input_dir,
+             * output_dir,
+             * input_file,
+             * file_ext;
+
+        cv::Mat input_image;
 };
 
 class SuperPixel {
     public:
-    SuperPixel();
-    SuperPixel(const cv::Vec3b &, const Node &);
+        SuperPixel();
+        SuperPixel(const cv::Vec3b &, const Node &);
 
-    std::string info() const;
+        std::string info() const;
 
-    cv::Vec3b color;
-    Node classifier_pixel;
+        cv::Vec3b color;
+        Node classifier_pixel;
 };
 
 class Segmentation: public ImageBase {

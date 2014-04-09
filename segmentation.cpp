@@ -141,23 +141,32 @@ void Segmentation::drawSegmentation() {
 }
 
 void Segmentation::drawSuperPixel() {
-    map <Node, Vec3f> super_set;
+    super_pixel_set.clear();
+    map <Node, Vec3f> redraw_set;
+
     srand(clock());
     for(int i = 0; i < height(); i++) {
         for(int j = 0; j < width(); j++) {
-            if(super_set.find(getRegion(region[i][j].classifier_pixel).classifier_pixel) == super_set.end()) {
+            if(redraw_set.find(getRegion(region[i][j].classifier_pixel).classifier_pixel) == redraw_set.end()) {
                 Vec3f _color;
                 for(int k = 0; k < 3; k++) {
                     _color.val[k] = rand() % 256;
                 }
-                super_set[getRegion(region[i][j].classifier_pixel).classifier_pixel] = _color;
+                redraw_set[getRegion(region[i][j].classifier_pixel).classifier_pixel] = _color;
+
+                set<ImagePixel> biu;
+                super_pixel_set[getRegion(region[i][j].classifier_pixel).classifier_pixel] = biu;
             }
+            super_pixel_set[getRegion(region[i][j].classifier_pixel).classifier_pixel].insert(ImagePixel(make_pair(i, j), input_image.at<Vec3b>(j, i)));
         }
     }
+
+    cout << "Super pixel set: " << super_pixel_set.size() << endl;
+
     Mat super_image = Mat(width(), height(), CV_8UC3);
     for(int i = 0; i < height(); i++) {
         for(int j = 0; j < width(); j++) {
-            super_image.at<Vec3b>(j, i) = super_set[getRegion(region[i][j].classifier_pixel).classifier_pixel];
+            super_image.at<Vec3b>(j, i) = redraw_set[getRegion(region[i][j].classifier_pixel).classifier_pixel];
         }
     }
     char * super_file = new char[100];

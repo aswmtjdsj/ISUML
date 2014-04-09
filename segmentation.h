@@ -9,7 +9,9 @@
 #endif
 
 class SuperPixel {
+
     public:
+
     SuperPixel();
     SuperPixel(const cv::Vec3b &, const Node &, const int _size = 1);
 
@@ -21,13 +23,16 @@ class SuperPixel {
 };
 
 class Segmentation: public ImageBase {
+
     public:
+
         Segmentation();
         Segmentation(const char **);
         ~Segmentation();
 
         std::vector <std::vector<SuperPixel> > region;
         std::vector <Edge> graph;
+        std::map <Node, std::set<ImagePixel> > super_pixel_set;
 
         void buildGraph();
         void printGraph(const int &) const;

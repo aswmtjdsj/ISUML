@@ -86,3 +86,13 @@ ImageBase::~ImageBase() {
         delete [] file_ext;
     }
 }
+
+ImagePixel::ImagePixel() {
+}
+
+ImagePixel::ImagePixel(const Node &p, const cv::Vec3b &v): pos(p), value(v) {
+}
+
+bool operator < (const ImagePixel &a, const ImagePixel &b) {
+    return a.pos < b.pos;
+}

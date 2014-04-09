@@ -2,6 +2,7 @@
 #define IMAGE_BASE_H
 
 #include "common.h"
+#include "graph_base.h"
 
 class ImageBase {
 
@@ -28,6 +29,19 @@ class ImageBase {
          * file_ext;
     
     cv::Mat input_image;
+};
+
+class ImagePixel {
+
+    public:
+        ImagePixel();
+        ImagePixel(const Node &, const cv::Vec3b &);
+
+        friend bool operator < (const ImagePixel &, const ImagePixel &);
+
+        Node pos;
+        cv::Vec3b value;
+
 };
 
 #endif

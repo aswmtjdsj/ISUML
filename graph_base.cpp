@@ -34,7 +34,7 @@ Edge::Edge(const Node &_from, const Node &_to, const int &w): from(_from), to(_t
 }
 
 bool operator <(const Edge a, const Edge b) {
-    return a.weight < b.weight;
+    return a.weight < b.weight || (a.weight == b.weight && a.from < b.from) || (a.weight == b.weight && a.from == b.from && a.to < b.to);
 }
 
 void Edge::print() const {
